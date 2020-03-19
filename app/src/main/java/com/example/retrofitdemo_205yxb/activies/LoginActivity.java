@@ -1,6 +1,7 @@
 package com.example.retrofitdemo_205yxb.activies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -54,9 +55,14 @@ public class LoginActivity extends AppCompatActivity implements RetrofitListener
     @Override
     public void onSuccess(LoginBean userId, int flag) {
 
-        if(userId!=null &&((LoginBean)userId).getUserid()!=null)
-            Toast.makeText(LoginActivity.this, "登录成功："+((LoginBean)userId).getUserid(), Toast.LENGTH_SHORT).show();
-        else Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+        if (userId.getUserid().equals("0")) {
+            Toast.makeText(LoginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+        } else {
+            saveUser(userId.getUserid());
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+        }
     }
     @Override
     public void onFail() {
